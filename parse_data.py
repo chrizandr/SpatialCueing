@@ -32,7 +32,7 @@ def parse_file(filepath):
         else:
             data[l].append(float(t))
 
-    return data
+    return data, raw_data
 
 
 def get_files(data_path):
@@ -53,12 +53,14 @@ def find_means(data):
 if __name__ == "__main__":
     data_path = "data/"
     files = get_files(data_path)
-    data = [parse_file(x) for x in files]
+    output = [parse_file(x) for x in files]
+    data = [x[0] for x in output]
+    raw_data = [x[1] for x in output]
     means = [find_means(x) for x in data]
 
     for key in means[0].keys():
-        data = [x[key] for x in means]
-        plt.plot(data, label=key)
+        mean_data = [x[key] for x in means]
+        plt.plot(mean_data, label=key)
     plt.legend()
     plt.show()
     pdb.set_trace()
